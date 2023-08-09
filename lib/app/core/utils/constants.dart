@@ -40,7 +40,8 @@ class KColor {
 }
 
 class ConstantValues {
- static const String title = 'Notes App';
+  static const int IMG_QUALITY = 50;
+  static const String title = 'Notes App';
  static const String fingerPrintErrorMsg = 'Your Device Not Support Finger Print Method';
 }
 class DbConstant{

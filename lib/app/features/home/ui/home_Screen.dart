@@ -5,6 +5,7 @@ import 'package:notes_app/app/core/utils/FocusKeyboard.dart';
 import 'package:notes_app/app/core/utils/constants.dart';
 import 'package:notes_app/app/features/home/bloc/home_bloc.dart';
 import 'package:notes_app/app/models/NoteModel.dart';
+import 'package:notes_app/app/routes/app_routes.dart';
 import '../../../core/widgets/app_bar.dart';
 import '../../../core/widgets/customTextField.dart';
 import '../../../core/widgets/note_card.dart';
@@ -16,7 +17,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<HomeBloc>(context,listen: true);
-
     return GestureDetector(
       onTap: () => FocusKeyboard.dismissKeyboard(),
       child: Scaffold(
@@ -25,7 +25,12 @@ class HomeScreen extends StatelessWidget {
           bloc: bloc,
           listener: (context, state) {
             if (state is NoteEditState) {
-              NoteInsertAlert(context, bloc, noteModel: state.book, editAble: true);
+              // NoteInsertAlert(context, bloc, noteModel: state.book, editAble: true);
+              Navigator.pushNamed(context, Routes.NoteEditor,arguments: {
+                'bloc': bloc,
+                'noteModel':  state.noteModel,
+                'isEdit': true,
+              },);
             }
 
           },
@@ -51,7 +56,10 @@ class HomeScreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             FocusKeyboard.dismissKeyboard();
-            NoteInsertAlert(context, bloc);
+            // NoteInsertAlert(context, bloc);
+            Navigator.pushNamed(context, Routes.NoteEditor,arguments: {
+              'bloc': bloc,
+            },);
           },
           child: const Icon(Icons.add),
         ),

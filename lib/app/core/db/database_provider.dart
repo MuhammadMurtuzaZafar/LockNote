@@ -43,6 +43,7 @@ class DatabaseProvider{
     title TEXT,
     subTitle TEXT,
     isLock INTEGER,
+    imageBinaryData BLOB,
     timeStamp DATETIME DEFAULT CURRENT_TIMESTAMP
     )
     ''');

@@ -42,12 +42,12 @@ class CustomSearch extends SearchDelegate {
             : bloc.noteList
             .where((element) =>
         element.title!.contains(query) ||
-            element.timestamp!.contains(query.toString()))
+            element.timestamp.contains(query.toString()))
             .toList();
         return ListView.builder(
           itemCount: suggestList.length,
           itemBuilder: (context, index) {
-            return noteCard(bloc.noteList[index], context, bloc);
+            return noteCard(suggestList[index], context, bloc);
           },
         );
       },
@@ -60,17 +60,14 @@ class CustomSearch extends SearchDelegate {
     return BlocBuilder<HomeBloc, HomeState>(
       bloc: bloc,
       builder: (context, state) {
-        final suggestList = query.isEmpty
-            ? bloc.noteList
-            : bloc.noteList
-            .where((element) =>
-        element.title!.contains(query) ||
-            element.timestamp!.contains(query.toString()))
-            .toList();
+        final suggestList=query.isEmpty?bloc.noteList:bloc.noteList.where((NoteModel element)
+        => element.title!.contains(query)||
+            element.timestamp!.contains(query.toString())).toList();
+
         return ListView.builder(
           itemCount: suggestList.length,
           itemBuilder: (context, index) {
-            return noteCard(bloc.noteList[index], context, bloc);
+            return noteCard(suggestList[index], context, bloc);
           },
         );
       },
@@ -105,7 +102,7 @@ class CustomSearch extends SearchDelegate {
     );
   }
 */
-
+/*
   @override
   ThemeData appBarTheme(BuildContext context) {
     assert(context != null);
@@ -129,5 +126,5 @@ class CustomSearch extends SearchDelegate {
             border: InputBorder.none,
           ),
     );
-  }
+  }*/
 }

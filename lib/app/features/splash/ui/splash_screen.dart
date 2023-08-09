@@ -35,7 +35,7 @@ class SplashScreen extends StatelessWidget {
   Widget appTitle() {
     return const Text(
       ConstantValues.title,
-      style: TextStyle(fontSize: 24),
+      style: TextStyle(fontSize: 24,color: KColor.white),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/app/features/home/bloc/home_bloc.dart';
+import 'package:notes_app/app/features/note_editor/ui/note_editor_view.dart';
 
 import '../features/home/ui/home_Screen.dart';
 import '../features/splash/bloc/splash_bloc.dart';
@@ -17,5 +18,8 @@ class AppPages {
     Routes.Home_Screen: (context) => BlocProvider(
       create: (context)=>HomeBloc(),
       child:   HomeScreen(),),
+    Routes.NoteEditor: (context) => BlocProvider(
+      create: (context)=>HomeBloc(),
+      child:   NoteEditor(),),
   };
 }

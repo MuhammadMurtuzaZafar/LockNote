@@ -27,10 +27,13 @@ class NoteSubtitleErrorState extends HomeState{
 }
 class NoteEditState extends HomeState
 {
-  NoteModel book;
+  NoteModel noteModel;
 
-  NoteEditState(this.book);
+  NoteEditState(this.noteModel);
 }
 class NoteProtectedTrueState extends HomeState{}
 class NoteProtectedFalseState extends HomeState{}
 class NoteProtectedErrorState extends HomeState{}
+
+class ImageUploadSuccess extends HomeState{}
+class ImageUploadFailed extends HomeState{}

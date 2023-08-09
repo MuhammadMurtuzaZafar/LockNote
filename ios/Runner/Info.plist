@@ -47,5 +47,12 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
     <string>Fingerprint Authenticate to show you Note</string>
+
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs permission to access your photo library in order to upload and share photos with your friends.</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs access to your device's camera to capture and share images.</string>
+
 </dict>
 </plist>

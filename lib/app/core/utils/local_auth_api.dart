@@ -31,7 +31,10 @@ class LocalAuthApi {
 
   static Future<bool> authenticate(BuildContext context) async {
     final isAvailable = await hasBiometrics(context);
-    if (!isAvailable) return false;
+    if (!isAvailable) {
+      SnackBarHelper.showSnackBar(context, "Authentication Error");
+      return false;
+    }
 
     try {
       return await _auth.authenticate(

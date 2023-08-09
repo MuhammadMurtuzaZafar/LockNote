@@ -40,3 +40,8 @@ class SwitchProtectionEvent extends HomeEvent{
 }
 class SwitchProtectionErrorEvent extends HomeEvent{
 }
+
+class ImageUploadedEvent extends HomeEvent{
+  bool imageUoploaded;
+  ImageUploadedEvent(this.imageUoploaded);
+}

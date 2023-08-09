@@ -1,9 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:notes_app/app/models/NoteModel.dart';
 import 'package:notes_app/app/repositories/note_repo/note_repository.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../../core/utils/FocusKeyboard.dart';
+import '../../../core/utils/local_auth_api.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -11,8 +20,21 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final NoteRepository _noteRepo = NoteRepository();
   List<NoteModel> noteList = [];
-
+  File? imagePicked;
   HomeBloc() : super(HomeInitial()) {
+
+    on<ImageUploadedEvent>((event, emit) {
+      if(event.imageUoploaded)
+      {
+        emit(ImageUploadSuccess());
+      }
+      else
+      {
+        emit(ImageUploadFailed());
+        imagePicked=null;
+      }
+    });
+
     on<SwitchProtectionErrorEvent>((event,emit){
        emit(NoteProtectedErrorState());
     });
@@ -47,7 +69,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
 
-    on<FormSubmitEvent>((event, emit) {
+    on<FormSubmitEvent>((event, emit) async{
       if (event.title.isEmpty) {
         return emit(NoteTitleErrorState("Please Enter a Note Title"));
       } else if (event.subtitle.isEmpty) {
@@ -57,7 +79,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return emit(NoteYearErrorState("Please Enter a Year Name"));
       } */
       else {
-        _noteRepo.insert(NoteModel(title: event.title,subTitle: event.subtitle,isLock: event.isLock));
+        List<int> imageBinary=await fileToBase64String();
+
+        _noteRepo.insert(NoteModel(title: event.title,subTitle: event.subtitle,isLock: event.isLock,imageBinaryData: imageBinary));
         add(FetchNoteEvent());
         return emit(NoteFormValidState());
       }
@@ -99,5 +123,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       return false;
     }
     return double.tryParse(str) != null;
+  }
+  void clearImage() {
+    imagePicked = null; // Set _imageFile to null
+  }
+  Future<List<int>> fileToBase64String() async {
+    if (imagePicked == null) {
+      return [];
+    }
+
+    List<int> bytes = await imagePicked!.readAsBytes();
+    String base64String = base64Encode(bytes);
+    return bytes;
+  }
+  Future<File> bytesToFile(List<int> bytes) async {
+    Directory cacheDir = await getTemporaryDirectory();
+    String filePath = '${cacheDir.path}/file.jpg';
+
+    File file = File(filePath);
+    await file.writeAsBytes(bytes);
+    return file;
   }
 }

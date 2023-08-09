@@ -16,12 +16,10 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: ConstantValues.title,
-      theme: themeData2..textTheme.apply(
-        bodyColor: Colors.white, //<-- SEE HERE
-        displayColor: Colors.white, //<-- SEE HERE
-      ),
+      theme: Themes().lightTheme,
+      darkTheme: Themes().dartTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.Splash_Screen,
+      initialRoute: Routes.Home_Screen,
       routes: AppPages.routes,
     );
   }
